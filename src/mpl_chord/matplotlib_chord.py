@@ -128,7 +128,7 @@ def chord_arc(
         ax.add_patch(patch)
 
 
-def selfChordArc(
+def self_chord_arc(
     start=0, end=60, radius=1.0, chord_width=0.7, ax=None, color=(1, 0, 0)
 ):
     # start, end should be in [0, 360)
@@ -233,7 +233,7 @@ def chord_diagram(X, ax=None, colors=None, width=0.1, pad=2, chord_width=0.7):
             start=start, end=end, radius=1.0, ax=ax, color=colors[i], width=width
         )
         start, end = pos[(i, i)]
-        selfChordArc(
+        self_chord_arc(
             start,
             end,
             radius=1.0 - width,
