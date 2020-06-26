@@ -132,7 +132,21 @@ def self_chord_arc(
     start=0, end=60, radius=1.0, chord_width=0.7, ax=None, color=(1, 0, 0)
 ):
     # start, end should be in [0, 360)
-    vertices = get_vertices(end, radius, start, chord_width)
+    if start > end:
+        start, end = end, start
+    start *= np.pi / 180.0
+    end *= np.pi / 180.0
+    opt = 4.0 / 3.0 * np.tan((end - start) / 4.0) * radius
+    chord_radius = radius * (1 - chord_width)
+    vertices = [
+        polar2xy(radius, start),
+        polar2xy(radius, start) + polar2xy(opt, start + 0.5 * np.pi),
+        polar2xy(radius, end) + polar2xy(opt, end - 0.5 * np.pi),
+        polar2xy(radius, end),
+        polar2xy(chord_radius, end),
+        polar2xy(chord_radius, start),
+        polar2xy(radius, start),
+    ]
     codes = [
         Path.MOVETO,
         Path.CURVE4,
