@@ -153,12 +153,12 @@ def self_chord_arc(
         ax.add_patch(patch)
 
 
-def chord_diagram(x, ax=None, colors=None, width=0.1, pad=2, chord_width=0.7):
+def chord_diagram(flux, ax=None, colors=None, width=0.1, pad=2, chord_width=0.7):
     """Plot a chord diagram
 
     Parameters
     ----------
-    x :
+    flux :
         flux data, X[i, j] is the flux from i to j
     ax :
         matplotlib `axes` to show the plot
@@ -178,7 +178,7 @@ def chord_diagram(x, ax=None, colors=None, width=0.1, pad=2, chord_width=0.7):
         ax.axis("off")
 
     # X[i, j]:  i -> j
-    x = x.sum(axis=1)  # sum over rows
+    x = flux.sum(axis=1)  # sum over rows
     ax.set_xlim(-1.1, 1.1)
     ax.set_ylim(-1.1, 1.1)
 
@@ -219,7 +219,7 @@ def chord_diagram(x, ax=None, colors=None, width=0.1, pad=2, chord_width=0.7):
         nodePos.append(
             tuple(polar2xy(1.1, 0.5 * (start + end) * np.pi / 180.0)) + (angle,)
         )
-        z = (x[i, :] / x[i].astype(float)) * (end - start)
+        z = (flux[i, :] / x[i].astype(float)) * (end - start)
         ids = np.argsort(z)
         z0 = start
         for j in ids:
@@ -243,7 +243,7 @@ def chord_diagram(x, ax=None, colors=None, width=0.1, pad=2, chord_width=0.7):
         )
         for j in range(i):
             color = colors[i]
-            if x[i, j] > x[j, i]:
+            if flux[i, j] > flux[j, i]:
                 color = colors[j]
             start1, end1 = pos[(i, j)]
             start2, end2 = pos[(j, i)]
